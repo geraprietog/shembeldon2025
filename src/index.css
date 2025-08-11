@@ -1,0 +1,249 @@
+:root {
+  --bg-1: #070a1a;
+  --bg-2: #0b0430;
+  --panel: #0f1224ee;
+  --border: rgba(255, 255, 255, 0.08);
+  --txt: #e6e9f3;
+  --sub: #9aa0b3;
+  --cyan: #23f3ff;
+  --pink: #ff4fd8;
+  --vio: #7c3cff;
+  --lime: #a9ff3c;
+}
+
+/* Reset mínimo */
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  color: var(--txt);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(
+      1200px 700px at 75% 10%,
+      #2d0a64aa 0%,
+      transparent 60%
+    ),
+    radial-gradient(900px 600px at 10% 90%, #001b69aa 0%, transparent 65%),
+    linear-gradient(135deg, var(--bg-1), var(--bg-2));
+  overflow-y: auto;
+}
+
+/* capa de puntitos estilo halftone */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.12) 0 1px,
+        transparent 1px
+      )
+      0 0/14px 14px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px)
+      7px 7px/14px 14px;
+  mix-blend-mode: soft-light;
+  opacity: 0.25;
+}
+
+/* helpers */
+.s-wrap {
+  min-height: 100vh;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.s-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+}
+.s-tab {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--sub);
+  border: 1px solid var(--border);
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.s-tab.is-active {
+  color: #fff;
+  border-color: var(--cyan);
+  box-shadow: 0 0 18px #23f3ff55;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.01)
+  );
+}
+.s-tab:hover {
+  border-color: var(--cyan);
+}
+.s-btn-pink {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--pink);
+  color: #000;
+  box-shadow: 0 0 14px #ff4fd866;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+}
+.s-btn-pink:hover {
+  background: #ff7ae1;
+}
+.s-input,
+.s-select,
+.s-num {
+  background: #0b0e1d;
+  color: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+.s-num {
+  width: 72px;
+}
+
+.table th,
+.table td {
+  padding: 8px 6px;
+}
+.table th {
+  color: var(--sub);
+  font-weight: 700;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.table tr {
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.hero-title {
+  margin: 0;
+  font-weight: 900;
+  line-height: 1.05;
+  font-size: clamp(26px, 3.5vw, 40px);
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 12px rgba(255, 79, 216, 0.35),
+    0 0 10px rgba(35, 243, 255, 0.25);
+}
+.hero-badge {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  color: #fff;
+  background: linear-gradient(180deg, #1d2cf8, #7c3cff);
+  border-radius: 12px;
+  border: 1px solid #ffffff22;
+  box-shadow: 0 0 20px #4b2fff66;
+  padding: 12px 8px;
+  font-size: 12px;
+}
+.hero-sub {
+  color: var(--sub);
+  margin-top: 6px;
+}
+.hero-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.lock-btn {
+  border: 1px solid var(--border);
+  background: #0b0e1d;
+  color: #fff;
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.lock-ind {
+  font-size: 12px;
+  color: var(--sub);
+}
+
+/* ---------- FONDO DIFUMINADO + SILUETA ---------- */
+/* Coloca ESTE div en App.tsx, dentro de .s-wrap:  <div className="hero-bg" aria-hidden="true" /> */
+.hero-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* color neon + imagen + degradado base */
+  background: radial-gradient(70% 60% at 50% 35%, #23f3ff22 0%, transparent 65%),
+    radial-gradient(60% 55% at 60% 65%, #ff4fd820 0%, transparent 70%),
+    linear-gradient(180deg, #060712, #0a0b18);
+}
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/silhouette.jpg") no-repeat right 8% bottom 70%;
+  background-size: min(60vw, 900px);
+  opacity: 0.35;
+  filter: blur(1px) saturate(125%) contrast(110%);
+  mix-blend-mode: screen;
+}
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      120% 85% at 50% 35%,
+      transparent 0%,
+      transparent 55%,
+      #00000055 80%
+    ),
+    radial-gradient(
+      85% 85% at 85% 50%,
+      transparent 0%,
+      transparent 55%,
+      #00000066 85%
+    );
+}
+
+/* Capas: contenido arriba, fondo debajo */
+.s-wrap > *:not(.hero-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Oculta el fondo grande en móviles */
+@media (max-width: 900px) {
+  .hero-bg {
+    display: none;
+  }
+}
+
+/* Matriz de puntos tipo poster (solo una vez) */
+.s-wrap::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(#ffffff10 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
