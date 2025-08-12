@@ -219,18 +219,17 @@ export default function App() {
       ]
   );
   useEffect(() => {
-    if (active) {
-      setSets(
-        saved[active.id]?.sets ?? [
-          { p1: 0, p2: 0 },
-          { p1: 0, p2: 0 },
-          { p1: 0, p2: 0 },
-        ]
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matchSel, saved]);
-
+    if (!active) return;
+    // Solo inicializa cuando cambias de partido
+    setSets(
+      saved[active.id]?.sets ?? [
+        { p1: 0, p2: 0 },
+        { p1: 0, p2: 0 },
+        { p1: 0, p2: 0 },
+      ]
+    );
+    // 👇 importante: NO depender de `saved`
+  }, [matchSel]);
   async function submit() {
     if (!active) return;
     const winner = computeWinner(sets);
