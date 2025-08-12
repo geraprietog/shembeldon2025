@@ -1,19 +1,35 @@
 import React, { useEffect, useMemo, useState } from "react";
 import seed from "./seed.json";
+import {
+  fetchAllResults,
+  upsertResult,
+  wipeAllResults,
+  type SetScore as RSetScore,
+  type RemoteResult,
+} from "./services/resultsStore";
 
 /** ====== Config ====== */
-// Cambia este PIN por el tuyo
 const ADMIN_PIN = "1051";
-const LS_RESULTS = "shembeldon_v1_results";
 const LS_ADMIN = "shemb_admin";
+const POLL_MS = 5000; // refresco automático cada 5s
 /** ==================== */
 
-type SetScore = { p1: number; p2: number };
+type SetScore = RSetScore;
 type MatchResult = {
-  id: string; week: number; p1: string; p2: string;
-  sets: SetScore[]; winner?: "p1" | "p2";
+  id: string;
+  week: number;
+  p1: string;
+  p2: string;
+  sets: SetScore[];
+  winner?: "p1" | "p2";
 };
-type Fixture = { id: string; week: number; p1: string; p2: string; date?: string };
+type Fixture = {
+  id: string;
+  week: number;
+  p1: string;
+  p2: string;
+  date?: string;
+};
 type Seed = { players: string[]; fixtures: Fixture[] };
 
 const NEON = {
@@ -23,21 +39,12 @@ const NEON = {
   border: "var(--border)",
 };
 
-function loadSaved(): Record<string, MatchResult> {
-  try {
-    return JSON.parse(localStorage.getItem(LS_RESULTS) || "{}");
-  } catch {
-    return {};
-  }
-}
-function saveAll(map: Record<string, MatchResult>) {
-  localStorage.setItem(LS_RESULTS, JSON.stringify(map));
-}
-
 function computeWinner(sets: SetScore[]): "p1" | "p2" | undefined {
   let p1 = 0,
     p2 = 0;
-  const played = sets.filter((s) => Number.isFinite(s.p1) && Number.isFinite(s.p2));
+  const played = sets.filter(
+    (s) => Number.isFinite(s.p1) && Number.isFinite(s.p2)
+  );
   for (const s of played) {
     if (s.p1 > s.p2) p1++;
     else if (s.p2 > s.p1) p2++;
@@ -71,12 +78,45 @@ export default function App() {
   const initial: Seed = (seed as any) ?? { players: [], fixtures: [] };
 
   const [tab, setTab] = useState<TabKey>("Schedule");
-  const [saved, setSaved] = useState<Record<string, MatchResult>>(() => loadSaved());
-  const [isAdmin, setIsAdmin] = useState<boolean>(() => localStorage.getItem(LS_ADMIN) === "1");
+  const [saved, setSaved] = useState<Record<string, MatchResult>>({});
+  const [isAdmin, setIsAdmin] = useState<boolean>(
+    () => localStorage.getItem(LS_ADMIN) === "1"
+  );
 
-  useEffect(() => saveAll(saved), [saved]);
+  // Cargar y refrescar datos del servidor con polling
+  useEffect(() => {
+    let mounted = true;
+    let timer: number | undefined;
 
-  // Atajo: Shift + D -> activar admin (pide PIN si no está activo)
+    async function loadData() {
+      const remote = await fetchAllResults();
+      if (!mounted) return;
+      setSaved(
+        Object.fromEntries(
+          Object.entries(remote).map(([k, r]) => [
+            k,
+            {
+              id: r.match_id,
+              week: r.week,
+              p1: r.p1,
+              p2: r.p2,
+              sets: r.sets,
+              winner: (r.winner ?? undefined) as "p1" | "p2" | undefined,
+            },
+          ])
+        )
+      );
+    }
+
+    loadData(); // carga inicial
+    timer = window.setInterval(loadData, POLL_MS);
+    return () => {
+      mounted = false;
+      if (timer) window.clearInterval(timer);
+    };
+  }, []);
+
+  // Atajo: Shift + D -> activar/desactivar admin
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.shiftKey && (e.key === "D" || e.key === "d")) {
@@ -119,7 +159,9 @@ export default function App() {
       string,
       { wins: number; losses: number; setsWon: number; setsLost: number }
     >();
-    players.forEach((p) => map.set(p, { wins: 0, losses: 0, setsWon: 0, setsLost: 0 }));
+    players.forEach((p) =>
+      map.set(p, { wins: 0, losses: 0, setsWon: 0, setsLost: 0 })
+    );
     Object.values(saved).forEach((m) => {
       if (!m.winner) return;
       let p1 = 0,
@@ -144,51 +186,79 @@ export default function App() {
     });
     return Array.from(map.entries())
       .map(([name, r]) => ({ name, ...r, diff: r.setsWon - r.setsLost }))
-      .sort((a, b) => b.wins - a.wins || b.diff - a.diff || a.name.localeCompare(b.name));
+      .sort(
+        (a, b) =>
+          b.wins - a.wins || b.diff - a.diff || a.name.localeCompare(b.name)
+      );
   }, [players, saved]);
 
   // Submit Result state
   const [weekSel, setWeekSel] = useState<number>(() => weeks[0] ?? 1);
-  const matchesThisWeek = (initial.fixtures || []).filter((f) => f.week === weekSel);
-  const [matchSel, setMatchSel] = useState<string>(() => matchesThisWeek[0]?.id ?? "");
+  const matchesThisWeek = (initial.fixtures || []).filter(
+    (f) => f.week === weekSel
+  );
+  const [matchSel, setMatchSel] = useState<string>(
+    () => matchesThisWeek[0]?.id ?? ""
+  );
   useEffect(() => {
-    if (!matchesThisWeek.find((m) => m.id === matchSel) && matchesThisWeek[0])
+    if (!matchesThisWeek.find((m) => m.id === matchSel) && matchesThisWeek[0]) {
       setMatchSel(matchesThisWeek[0].id);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [weekSel]);
+  }, [weekSel, weeks.length, initial.fixtures?.length]);
+
   const active = (initial.fixtures || []).find((x) => x.id === matchSel);
   const currentSaved = active ? saved[active.id] : undefined;
+
   const [sets, setSets] = useState<SetScore[]>(
-    () => currentSaved?.sets ?? [{ p1: 0, p2: 0 }, { p1: 0, p2: 0 }, { p1: 0, p2: 0 }]
+    () =>
+      currentSaved?.sets ?? [
+        { p1: 0, p2: 0 },
+        { p1: 0, p2: 0 },
+        { p1: 0, p2: 0 },
+      ]
   );
   useEffect(() => {
     if (active) {
-      setSets(saved[active.id]?.sets ?? [
-        { p1: 0, p2: 0 },
-        { p1: 0, p2: 0 },
-        { p1: 0, p2: 0 },
-      ]);
+      setSets(
+        saved[active.id]?.sets ?? [
+          { p1: 0, p2: 0 },
+          { p1: 0, p2: 0 },
+          { p1: 0, p2: 0 },
+        ]
+      );
     }
-  }, [matchSel]); // eslint-disable-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [matchSel, saved]);
 
-  function submit() {
+  async function submit() {
     if (!active) return;
     const winner = computeWinner(sets);
     if (!winner) {
       alert("Best-of-3: two straight sets OR a 3rd set if it's 1–1.");
       return;
     }
-    setSaved((prev) => ({
-      ...prev,
-      [active.id]: { id: active.id, week: active.week, p1: active.p1, p2: active.p2, sets, winner },
-    }));
-    alert(`Saved! Winner: ${winner === "p1" ? active.p1 : active.p2}`);
+    await upsertResult({
+      match_id: active.id,
+      week: active.week,
+      p1: active.p1,
+      p2: active.p2,
+      sets,
+      winner,
+    });
+    // (Opcional) feedback inmediato local:
+    // setSaved((prev) => ({ ...prev, [active.id]: { id: active.id, week: active.week, p1: active.p1, p2: active.p2, sets, winner } }));
   }
 
   /* ---------- Subviews ---------- */
   function ScheduleTab() {
     if (!initial.fixtures?.length)
-      return <div className="s-card">No fixtures yet. Load them in the Data tab.</div>;
+      return (
+        <div className="s-card">
+          No fixtures yet. Load them in the Data tab.
+        </div>
+      );
+
     return (
       <div style={{ display: "grid", gap: 12 }}>
         {weeks.map((w) => (
@@ -203,29 +273,57 @@ export default function App() {
             >
               Week {w}
             </div>
+
             <div style={{ display: "grid", gap: 8 }}>
               {initial.fixtures
                 .filter((f) => f.week === w)
                 .map((f) => {
                   const res = saved[f.id];
-                  const label = res ? ` — Winner: ${res.winner === "p1" ? f.p1 : f.p2}` : "";
+                  const scoreLine =
+                    res && res.sets.length > 0
+                      ? res.sets
+                          .map((s) => `${s?.p1 ?? "—"}-${s?.p2 ?? "—"}`)
+                          .join(", ")
+                      : "—, —, —";
+                  const winnerLabel = res?.winner
+                    ? ` — Winner: ${res.winner === "p1" ? f.p1 : f.p2}`
+                    : "";
+
                   return (
                     <div
                       key={f.id}
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
+                        alignItems: "center",
                         border: `1px solid ${NEON.border}`,
                         borderRadius: 10,
                         padding: "10px 12px",
+                        gap: 12,
                       }}
                     >
+                      {/* Izquierda: jugadores + fecha + ganador */}
                       <div>
-                        <b>{f.p1}</b> vs <b>{f.p2}</b>{" "}
-                        {f.date ? <span style={{ color: "var(--sub)" }}> — {f.date}</span> : null}
-                        <span style={{ color: "var(--lime)" }}>{label}</span>
+                        <b>{f.p1}</b> vs <b>{f.p2}</b>
+                        {f.date ? (
+                          <span style={{ color: "var(--sub)" }}>
+                            {" "}
+                            — {f.date}
+                          </span>
+                        ) : null}
+                        {winnerLabel && (
+                          <span style={{ color: "var(--lime)" }}>
+                            {winnerLabel}
+                          </span>
+                        )}
                       </div>
-                      <div style={{ color: "var(--sub)", fontSize: 12 }}>ID: {f.id}</div>
+
+                      {/* Derecha: marcador (ID oculto) */}
+                      <div
+                        style={{ textAlign: "right", display: "grid", gap: 2 }}
+                      >
+                        <div style={{ fontWeight: 800 }}>{scoreLine}</div>
+                      </div>
                     </div>
                   );
                 })}
@@ -237,20 +335,37 @@ export default function App() {
   }
 
   function SubmitTab() {
-    if (!active) return <div className="s-card">No matches in week {weekSel}.</div>;
+    if (!active)
+      return <div className="s-card">No matches in week {weekSel}.</div>;
     return (
       <div className="s-card" style={{ display: "grid", gap: 12 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 8, alignItems: "center" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "120px 1fr",
+            gap: 8,
+            alignItems: "center",
+          }}
+        >
           <div style={{ color: "var(--sub)" }}>Week</div>
-          <select value={weekSel} onChange={(e) => setWeekSel(Number(e.target.value))} className="s-select">
+          <select
+            value={weekSel}
+            onChange={(e) => setWeekSel(Number(e.target.value))}
+            className="s-select"
+          >
             {weeks.map((w) => (
               <option key={w} value={w}>
                 {w}
               </option>
             ))}
           </select>
+
           <div style={{ color: "var(--sub)" }}>Match</div>
-          <select value={matchSel} onChange={(e) => setMatchSel(e.target.value)} className="s-select">
+          <select
+            value={matchSel}
+            onChange={(e) => setMatchSel(e.target.value)}
+            className="s-select"
+          >
             {matchesThisWeek.map((m) => (
               <option key={m.id} value={m.id}>
                 {m.id}
@@ -260,7 +375,15 @@ export default function App() {
         </div>
 
         {[0, 1, 2].map((i) => (
-          <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 70px 70px", gap: 8, alignItems: "center" }}>
+          <div
+            key={i}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 70px 70px",
+              gap: 8,
+              alignItems: "center",
+            }}
+          >
             <div>Set {i + 1}</div>
             <input
               type="number"
@@ -305,7 +428,8 @@ export default function App() {
         </button>
         {currentSaved && (
           <div style={{ color: "var(--sub)" }}>
-            Last saved: <b>{currentSaved.winner === "p1" ? active.p1 : active.p2}</b> •{" "}
+            Last saved:{" "}
+            <b>{currentSaved.winner === "p1" ? active.p1 : active.p2}</b> •{" "}
             {currentSaved.sets.map((s) => `${s.p1}-${s.p2}`).join(", ")}
           </div>
         )}
@@ -317,15 +441,20 @@ export default function App() {
     if (!players.length) return <div className="s-card">No players yet.</div>;
     return (
       <div className="s-card">
-        <table className="table" style={{ width: "100%", borderCollapse: "collapse" }}>
+        <table
+          className="table"
+          style={{ width: "100%", borderCollapse: "collapse" }}
+        >
           <thead>
             <tr>
-              {["#", "Player", "W", "L", "Sets +", "Sets −", "Diff"].map((h) => (
-                <th key={h}>{h}</th>
-              ))}
+              {["#", "Player", "W", "L", "Sets +", "Sets −", "Diff"].map(
+                (h) => (
+                  <th key={h}>{h}</th>
+                )
+              )}
             </tr>
           </thead>
-        <tbody>
+          <tbody>
             {standings.map((r, i) => (
               <tr key={r.name}>
                 <td>{i + 1}</td>
@@ -355,12 +484,12 @@ export default function App() {
         </div>
         <div>
           <button
-            onClick={() => {
-              if (confirm("Clear ALL saved results?")) setSaved({});
+            onClick={async () => {
+              if (confirm("Clear ALL saved results?")) await wipeAllResults();
             }}
             className="s-btn-pink"
           >
-            Clear Results (localStorage)
+            Clear Results (server)
           </button>
         </div>
         <div style={{ color: "var(--sub)" }}>
@@ -373,59 +502,61 @@ export default function App() {
   /* ---------- Layout ---------- */
   return (
     <div className="s-wrap">
-      {/* Fondo difuminado + silueta */}
       <div className="hero-bg" aria-hidden="true" />
       <div className="silhouette" />
-      {/* <div className="silhouette silhouette--left" /> */}
 
       {/* HERO */}
-<div className="hero">
-  <div>
-    <h1 className="hero-title">
-      <span style={{ color: "var(--pink)" }}>Shembeldon</span>{" "}
-      <span style={{ color: "var(--cyan)" }}>Singles</span>{" "}
-      <span style={{ color: "var(--lime)" }}>Championship</span>
-    </h1>
+      <div className="hero">
+        <div>
+          <h1 className="hero-title">
+            <span style={{ color: "var(--pink)" }}>Shembeldon</span>{" "}
+            <span style={{ color: "var(--cyan)" }}>Singles</span>{" "}
+            <span style={{ color: "var(--lime)" }}>Championship</span>
+          </h1>
 
-    <div className="hero-sub">
-      Best-of-3: two straight sets wins; if it’s 1–1 after two, play a 3rd set to decide.
-    </div>
+          <div className="hero-sub">
+            Best-of-3: two straight sets wins; if it’s 1–1 after two, play a 3rd
+            set to decide.
+          </div>
 
-    {/* Línea en neón */}
-    <div className="hero-subline">TENNIS • SCHEDULE</div>
-  </div>
+          <div className="hero-subline">TENNIS • SCHEDULE</div>
+        </div>
 
-  <div className="hero-actions">
-    <button
-      className="lock-btn"
-      onClick={() => {
-        if (isAdmin) {
-          if (confirm("Disable admin mode?")) {
-            localStorage.setItem(LS_ADMIN, "0");
-            setIsAdmin(false);
-          }
-          return;
-        }
-        const pin = prompt("Enter admin PIN:");
-        if (pin === ADMIN_PIN) {
-          localStorage.setItem(LS_ADMIN, "1");
-          setIsAdmin(true);
-          alert("Admin enabled");
-        } else {
-          alert("Incorrect PIN");
-        }
-      }}
-      title={isAdmin ? "Disable admin" : "Enable admin"}
-    >
-      {isAdmin ? "🔓 Admin" : "🔒 Admin"}
-    </button>
-    <span className="lock-ind">(Press Shift+D)</span>
-  </div>
-</div>
+        <div className="hero-actions">
+          <button
+            className="lock-btn"
+            onClick={() => {
+              if (isAdmin) {
+                if (confirm("Disable admin mode?")) {
+                  localStorage.setItem(LS_ADMIN, "0");
+                  setIsAdmin(false);
+                }
+                return;
+              }
+              const pin = prompt("Enter admin PIN:");
+              if (pin === ADMIN_PIN) {
+                localStorage.setItem(LS_ADMIN, "1");
+                setIsAdmin(true);
+                alert("Admin enabled");
+              } else {
+                alert("Incorrect PIN");
+              }
+            }}
+            title={isAdmin ? "Disable admin" : "Enable admin"}
+          >
+            {isAdmin ? "🔓 Admin" : "🔒 Admin"}
+          </button>
+          <span className="lock-ind">(Press Shift+D)</span>
+        </div>
+      </div>
 
       {/* TABS */}
       <div style={{ display: "flex", gap: 8, margin: "18px 0 16px" }}>
-        <Tab label="Schedule" active={tab === "Schedule"} onClick={() => setTab("Schedule")} />
+        <Tab
+          label="Schedule"
+          active={tab === "Schedule"}
+          onClick={() => setTab("Schedule")}
+        />
         <Tab
           label="Submit Result"
           active={tab === "Submit Result"}
@@ -436,7 +567,13 @@ export default function App() {
           active={tab === "Standings"}
           onClick={() => setTab("Standings")}
         />
-        {isAdmin && <Tab label="Data" active={tab === "Data"} onClick={() => setTab("Data")} />}
+        {isAdmin && (
+          <Tab
+            label="Data"
+            active={tab === "Data"}
+            onClick={() => setTab("Data")}
+          />
+        )}
       </div>
 
       {/* CONTENIDO */}
