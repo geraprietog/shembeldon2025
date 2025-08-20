@@ -1,7 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import seed from "./seed.json";
-import { upsertResult, wipeAllResults } from "./services/resultsStore";
 import "./theme.css";
+import {
+  fetchAllResults,
+  upsertResult,
+  wipeAllResults,
+  type SetScore as RSetScore,
+} from "./services/resultsStore";
 
 /** ====== Config ====== */
 const ADMIN_PIN = "1051";
@@ -213,7 +218,7 @@ export default function App() {
         { p1: 0, p2: 0 },
       ]
   );
-  // ⚠️ Importante: NO depender de `saved` para no pisar lo que escribe el usuario
+  // ⚠️ Importante: NO depender de `saved` para no pisar lo que escribe el usuario; solo reiniciar al cambiar de partido
   useEffect(() => {
     if (!active) return;
     setSets(
@@ -223,8 +228,7 @@ export default function App() {
         { p1: 0, p2: 0 },
       ]
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matchSel]);
+  }, [matchSel]); // 👈 NO incluir `saved` aquí
 
   async function submit() {
     if (!active) return;
@@ -241,6 +245,7 @@ export default function App() {
       sets,
       winner,
     });
+    // (El polling actualizará la vista)
   }
 
   /* ---------- Subviews ---------- */
@@ -513,7 +518,6 @@ export default function App() {
   /* ---------- Layout ---------- */
   return (
     <div className="s-wrap">
-      {/* Fondo difuminado + silueta */}
       <div className="hero-bg" aria-hidden="true" />
       <div className="silhouette" />
 
