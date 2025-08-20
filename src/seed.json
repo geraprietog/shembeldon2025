@@ -1,651 +1,156 @@
 {
-    "players": [
-      "Deuce",
-      "Eduardo",
-      "Fernando",
-      "Gerardo",
-      "Kevin",
-      "Luis A",
-      "Luis C",
-      "Miguel",
-      "Oscar",
-      "Rafa",
-      "Reid",
-      "Roberto",
-      "Ryan",
-      "Tim",
-      "Vivek"
-    ],
-    "fixtures": [
-      {
-        "id": "W1-Reid-Gerardo",
-        "week": 1,
-        "p1": "Reid",
-        "p2": "Gerardo"
-      },
-      {
-        "id": "W1-Oscar-Deuce",
-        "week": 1,
-        "p1": "Oscar",
-        "p2": "Deuce"
-      },
-      {
-        "id": "W1-Luis_C-Fernando",
-        "week": 1,
-        "p1": "Luis C",
-        "p2": "Fernando"
-      },
-      {
-        "id": "W1-Ryan-Luis_A",
-        "week": 1,
-        "p1": "Ryan",
-        "p2": "Luis A"
-      },
-      {
-        "id": "W1-Roberto-Kevin",
-        "week": 1,
-        "p1": "Roberto",
-        "p2": "Kevin"
-      },
-      {
-        "id": "W1-Rafa-Eduardo",
-        "week": 1,
-        "p1": "Rafa",
-        "p2": "Eduardo"
-      },
-      {
-        "id": "W1-Vivek-Tim",
-        "week": 1,
-        "p1": "Vivek",
-        "p2": "Tim"
-      },
-      {
-        "id": "W2-Miguel-Gerardo",
-        "week": 2,
-        "p1": "Miguel",
-        "p2": "Gerardo"
-      },
-      {
-        "id": "W2-Reid-Fernando",
-        "week": 2,
-        "p1": "Reid",
-        "p2": "Fernando"
-      },
-      {
-        "id": "W2-Oscar-Luis_A",
-        "week": 2,
-        "p1": "Oscar",
-        "p2": "Luis A"
-      },
-      {
-        "id": "W2-Luis_C-Kevin",
-        "week": 2,
-        "p1": "Luis C",
-        "p2": "Kevin"
-      },
-      {
-        "id": "W2-Ryan-Eduardo",
-        "week": 2,
-        "p1": "Ryan",
-        "p2": "Eduardo"
-      },
-      {
-        "id": "W2-Roberto-Tim",
-        "week": 2,
-        "p1": "Roberto",
-        "p2": "Tim"
-      },
-      {
-        "id": "W2-Rafa-Vivek",
-        "week": 2,
-        "p1": "Rafa",
-        "p2": "Vivek"
-      },
-      {
-        "id": "W3-Miguel-Deuce",
-        "week": 3,
-        "p1": "Miguel",
-        "p2": "Deuce"
-      },
-      {
-        "id": "W3-Gerardo-Fernando",
-        "week": 3,
-        "p1": "Gerardo",
-        "p2": "Fernando"
-      },
-      {
-        "id": "W3-Reid-Kevin",
-        "week": 3,
-        "p1": "Reid",
-        "p2": "Kevin"
-      },
-      {
-        "id": "W3-Oscar-Eduardo",
-        "week": 3,
-        "p1": "Oscar",
-        "p2": "Eduardo"
-      },
-      {
-        "id": "W3-Luis_C-Tim",
-        "week": 3,
-        "p1": "Luis C",
-        "p2": "Tim"
-      },
-      {
-        "id": "W3-Ryan-Vivek",
-        "week": 3,
-        "p1": "Ryan",
-        "p2": "Vivek"
-      },
-      {
-        "id": "W3-Roberto-Rafa",
-        "week": 3,
-        "p1": "Roberto",
-        "p2": "Rafa"
-      },
-      {
-        "id": "W4-Miguel-Fernando",
-        "week": 4,
-        "p1": "Miguel",
-        "p2": "Fernando"
-      },
-      {
-        "id": "W4-Deuce-Luis_A",
-        "week": 4,
-        "p1": "Deuce",
-        "p2": "Luis A"
-      },
-      {
-        "id": "W4-Gerardo-Kevin",
-        "week": 4,
-        "p1": "Gerardo",
-        "p2": "Kevin"
-      },
-      {
-        "id": "W4-Reid-Tim",
-        "week": 4,
-        "p1": "Reid",
-        "p2": "Tim"
-      },
-      {
-        "id": "W4-Oscar-Vivek",
-        "week": 4,
-        "p1": "Oscar",
-        "p2": "Vivek"
-      },
-      {
-        "id": "W4-Luis_C-Rafa",
-        "week": 4,
-        "p1": "Luis C",
-        "p2": "Rafa"
-      },
-      {
-        "id": "W4-Ryan-Roberto",
-        "week": 4,
-        "p1": "Ryan",
-        "p2": "Roberto"
-      },
-      {
-        "id": "W5-Miguel-Luis_A",
-        "week": 5,
-        "p1": "Miguel",
-        "p2": "Luis A"
-      },
-      {
-        "id": "W5-Fernando-Kevin",
-        "week": 5,
-        "p1": "Fernando",
-        "p2": "Kevin"
-      },
-      {
-        "id": "W5-Deuce-Eduardo",
-        "week": 5,
-        "p1": "Deuce",
-        "p2": "Eduardo"
-      },
-      {
-        "id": "W5-Gerardo-Tim",
-        "week": 5,
-        "p1": "Gerardo",
-        "p2": "Tim"
-      },
-      {
-        "id": "W5-Reid-Rafa",
-        "week": 5,
-        "p1": "Reid",
-        "p2": "Rafa"
-      },
-      {
-        "id": "W5-Oscar-Roberto",
-        "week": 5,
-        "p1": "Oscar",
-        "p2": "Roberto"
-      },
-      {
-        "id": "W5-Luis_C-Ryan",
-        "week": 5,
-        "p1": "Luis C",
-        "p2": "Ryan"
-      },
-      {
-        "id": "W6-Miguel-Kevin",
-        "week": 6,
-        "p1": "Miguel",
-        "p2": "Kevin"
-      },
-      {
-        "id": "W6-Luis_A-Eduardo",
-        "week": 6,
-        "p1": "Luis A",
-        "p2": "Eduardo"
-      },
-      {
-        "id": "W6-Fernando-Tim",
-        "week": 6,
-        "p1": "Fernando",
-        "p2": "Tim"
-      },
-      {
-        "id": "W6-Deuce-Vivek",
-        "week": 6,
-        "p1": "Deuce",
-        "p2": "Vivek"
-      },
-      {
-        "id": "W6-Gerardo-Rafa",
-        "week": 6,
-        "p1": "Gerardo",
-        "p2": "Rafa"
-      },
-      {
-        "id": "W6-Reid-Ryan",
-        "week": 6,
-        "p1": "Reid",
-        "p2": "Ryan"
-      },
-      {
-        "id": "W6-Oscar-Luis_C",
-        "week": 6,
-        "p1": "Oscar",
-        "p2": "Luis C"
-      },
-      {
-        "id": "W7-Miguel-Eduardo",
-        "week": 7,
-        "p1": "Miguel",
-        "p2": "Eduardo"
-      },
-      {
-        "id": "W7-Kevin-Tim",
-        "week": 7,
-        "p1": "Kevin",
-        "p2": "Tim"
-      },
-      {
-        "id": "W7-Luis_A-Vivek",
-        "week": 7,
-        "p1": "Luis A",
-        "p2": "Vivek"
-      },
-      {
-        "id": "W7-Fernando-Rafa",
-        "week": 7,
-        "p1": "Fernando",
-        "p2": "Rafa"
-      },
-      {
-        "id": "W7-Deuce-Roberto",
-        "week": 7,
-        "p1": "Deuce",
-        "p2": "Roberto"
-      },
-      {
-        "id": "W7-Gerardo-Ryan",
-        "week": 7,
-        "p1": "Gerardo",
-        "p2": "Ryan"
-      },
-      {
-        "id": "W7-Reid-Oscar",
-        "week": 7,
-        "p1": "Reid",
-        "p2": "Oscar"
-      },
-      {
-        "id": "W8-Miguel-Tim",
-        "week": 8,
-        "p1": "Miguel",
-        "p2": "Tim"
-      },
-      {
-        "id": "W8-Eduardo-Vivek",
-        "week": 8,
-        "p1": "Eduardo",
-        "p2": "Vivek"
-      },
-      {
-        "id": "W8-Kevin-Rafa",
-        "week": 8,
-        "p1": "Kevin",
-        "p2": "Rafa"
-      },
-      {
-        "id": "W8-Luis_A-Roberto",
-        "week": 8,
-        "p1": "Luis A",
-        "p2": "Roberto"
-      },
-      {
-        "id": "W8-Fernando-Ryan",
-        "week": 8,
-        "p1": "Fernando",
-        "p2": "Ryan"
-      },
-      {
-        "id": "W8-Deuce-Luis_C",
-        "week": 8,
-        "p1": "Deuce",
-        "p2": "Luis C"
-      },
-      {
-        "id": "W8-Gerardo-Oscar",
-        "week": 8,
-        "p1": "Gerardo",
-        "p2": "Oscar"
-      },
-      {
-        "id": "W9-Miguel-Vivek",
-        "week": 9,
-        "p1": "Miguel",
-        "p2": "Vivek"
-      },
-      {
-        "id": "W9-Tim-Rafa",
-        "week": 9,
-        "p1": "Tim",
-        "p2": "Rafa"
-      },
-      {
-        "id": "W9-Eduardo-Roberto",
-        "week": 9,
-        "p1": "Eduardo",
-        "p2": "Roberto"
-      },
-      {
-        "id": "W9-Kevin-Ryan",
-        "week": 9,
-        "p1": "Kevin",
-        "p2": "Ryan"
-      },
-      {
-        "id": "W9-Luis_A-Luis_C",
-        "week": 9,
-        "p1": "Luis A",
-        "p2": "Luis C"
-      },
-      {
-        "id": "W9-Fernando-Oscar",
-        "week": 9,
-        "p1": "Fernando",
-        "p2": "Oscar"
-      },
-      {
-        "id": "W9-Deuce-Reid",
-        "week": 9,
-        "p1": "Deuce",
-        "p2": "Reid"
-      },
-      {
-        "id": "W10-Miguel-Rafa",
-        "week": 10,
-        "p1": "Miguel",
-        "p2": "Rafa"
-      },
-      {
-        "id": "W10-Vivek-Roberto",
-        "week": 10,
-        "p1": "Vivek",
-        "p2": "Roberto"
-      },
-      {
-        "id": "W10-Tim-Ryan",
-        "week": 10,
-        "p1": "Tim",
-        "p2": "Ryan"
-      },
-      {
-        "id": "W10-Eduardo-Luis_C",
-        "week": 10,
-        "p1": "Eduardo",
-        "p2": "Luis C"
-      },
-      {
-        "id": "W10-Kevin-Oscar",
-        "week": 10,
-        "p1": "Kevin",
-        "p2": "Oscar"
-      },
-      {
-        "id": "W10-Luis_A-Reid",
-        "week": 10,
-        "p1": "Luis A",
-        "p2": "Reid"
-      },
-      {
-        "id": "W10-Deuce-Gerardo",
-        "week": 10,
-        "p1": "Deuce",
-        "p2": "Gerardo"
-      },
-      {
-        "id": "W11-Miguel-Roberto",
-        "week": 11,
-        "p1": "Miguel",
-        "p2": "Roberto"
-      },
-      {
-        "id": "W11-Rafa-Ryan",
-        "week": 11,
-        "p1": "Rafa",
-        "p2": "Ryan"
-      },
-      {
-        "id": "W11-Vivek-Luis_C",
-        "week": 11,
-        "p1": "Vivek",
-        "p2": "Luis C"
-      },
-      {
-        "id": "W11-Tim-Oscar",
-        "week": 11,
-        "p1": "Tim",
-        "p2": "Oscar"
-      },
-      {
-        "id": "W11-Eduardo-Reid",
-        "week": 11,
-        "p1": "Eduardo",
-        "p2": "Reid"
-      },
-      {
-        "id": "W11-Luis_A-Gerardo",
-        "week": 11,
-        "p1": "Luis A",
-        "p2": "Gerardo"
-      },
-      {
-        "id": "W11-Fernando-Deuce",
-        "week": 11,
-        "p1": "Fernando",
-        "p2": "Deuce"
-      },
-      {
-        "id": "W12-Miguel-Ryan",
-        "week": 12,
-        "p1": "Miguel",
-        "p2": "Ryan"
-      },
-      {
-        "id": "W12-Roberto-Luis_C",
-        "week": 12,
-        "p1": "Roberto",
-        "p2": "Luis C"
-      },
-      {
-        "id": "W12-Rafa-Oscar",
-        "week": 12,
-        "p1": "Rafa",
-        "p2": "Oscar"
-      },
-      {
-        "id": "W12-Vivek-Reid",
-        "week": 12,
-        "p1": "Vivek",
-        "p2": "Reid"
-      },
-      {
-        "id": "W12-Eduardo-Gerardo",
-        "week": 12,
-        "p1": "Eduardo",
-        "p2": "Gerardo"
-      },
-      {
-        "id": "W12-Kevin-Deuce",
-        "week": 12,
-        "p1": "Kevin",
-        "p2": "Deuce"
-      },
-      {
-        "id": "W12-Luis_A-Fernando",
-        "week": 12,
-        "p1": "Luis A",
-        "p2": "Fernando"
-      },
-      {
-        "id": "W13-Miguel-Luis_C",
-        "week": 13,
-        "p1": "Miguel",
-        "p2": "Luis C"
-      },
-      {
-        "id": "W13-Ryan-Oscar",
-        "week": 13,
-        "p1": "Ryan",
-        "p2": "Oscar"
-      },
-      {
-        "id": "W13-Roberto-Reid",
-        "week": 13,
-        "p1": "Roberto",
-        "p2": "Reid"
-      },
-      {
-        "id": "W13-Vivek-Gerardo",
-        "week": 13,
-        "p1": "Vivek",
-        "p2": "Gerardo"
-      },
-      {
-        "id": "W13-Tim-Deuce",
-        "week": 13,
-        "p1": "Tim",
-        "p2": "Deuce"
-      },
-      {
-        "id": "W13-Eduardo-Fernando",
-        "week": 13,
-        "p1": "Eduardo",
-        "p2": "Fernando"
-      },
-      {
-        "id": "W13-Kevin-Luis_A",
-        "week": 13,
-        "p1": "Kevin",
-        "p2": "Luis A"
-      },
-      {
-        "id": "W14-Miguel-Oscar",
-        "week": 14,
-        "p1": "Miguel",
-        "p2": "Oscar"
-      },
-      {
-        "id": "W14-Luis_C-Reid",
-        "week": 14,
-        "p1": "Luis C",
-        "p2": "Reid"
-      },
-      {
-        "id": "W14-Roberto-Gerardo",
-        "week": 14,
-        "p1": "Roberto",
-        "p2": "Gerardo"
-      },
-      {
-        "id": "W14-Rafa-Deuce",
-        "week": 14,
-        "p1": "Rafa",
-        "p2": "Deuce"
-      },
-      {
-        "id": "W14-Vivek-Fernando",
-        "week": 14,
-        "p1": "Vivek",
-        "p2": "Fernando"
-      },
-      {
-        "id": "W14-Tim-Luis_A",
-        "week": 14,
-        "p1": "Tim",
-        "p2": "Luis A"
-      },
-      {
-        "id": "W14-Eduardo-Kevin",
-        "week": 14,
-        "p1": "Eduardo",
-        "p2": "Kevin"
-      },
-      {
-        "id": "W15-Miguel-Reid",
-        "week": 15,
-        "p1": "Miguel",
-        "p2": "Reid"
-      },
-      {
-        "id": "W15-Luis_C-Gerardo",
-        "week": 15,
-        "p1": "Luis C",
-        "p2": "Gerardo"
-      },
-      {
-        "id": "W15-Ryan-Deuce",
-        "week": 15,
-        "p1": "Ryan",
-        "p2": "Deuce"
-      },
-      {
-        "id": "W15-Roberto-Fernando",
-        "week": 15,
-        "p1": "Roberto",
-        "p2": "Fernando"
-      },
-      {
-        "id": "W15-Rafa-Luis_A",
-        "week": 15,
-        "p1": "Rafa",
-        "p2": "Luis A"
-      },
-      {
-        "id": "W15-Vivek-Kevin",
-        "week": 15,
-        "p1": "Vivek",
-        "p2": "Kevin"
-      },
-      {
-        "id": "W15-Tim-Eduardo",
-        "week": 15,
-        "p1": "Tim",
-        "p2": "Eduardo"
-      }
-    ]
-  }
+  "players": [
+    "Adrian",
+    "Deuce",
+    "Eduardo",
+    "Fernando",
+    "Gerardo",
+    "Kevin",
+    "Luis A",
+    "Luis C",
+    "Miguel",
+    "Oscar",
+    "Rafa",
+    "Reid",
+    "Roberto",
+    "Ryan",
+    "Tim",
+    "Vivek"
+  ],
+  "fixtures": [
+    { "id": "W1-Reid-Gerardo", "week": 1, "p1": "Reid", "p2": "Gerardo" },
+    { "id": "W1-Oscar-Deuce", "week": 1, "p1": "Oscar", "p2": "Deuce" },
+    { "id": "W1-Luis_C-Fernando", "week": 1, "p1": "Luis C", "p2": "Fernando" },
+    { "id": "W1-Ryan-Luis_A", "week": 1, "p1": "Ryan", "p2": "Luis A" },
+    { "id": "W1-Roberto-Kevin", "week": 1, "p1": "Roberto", "p2": "Kevin" },
+    { "id": "W1-Rafa-Eduardo", "week": 1, "p1": "Rafa", "p2": "Eduardo" },
+    { "id": "W1-Vivek-Tim", "week": 1, "p1": "Vivek", "p2": "Tim" },
+    { "id": "W1-Adrian-Miguel", "week": 1, "p1": "Adrian", "p2": "Miguel" },
+
+    { "id": "W2-Miguel-Gerardo", "week": 2, "p1": "Miguel", "p2": "Gerardo" },
+    { "id": "W2-Reid-Fernando", "week": 2, "p1": "Reid", "p2": "Fernando" },
+    { "id": "W2-Oscar-Luis_A", "week": 2, "p1": "Oscar", "p2": "Luis A" },
+    { "id": "W2-Luis_C-Kevin", "week": 2, "p1": "Luis C", "p2": "Kevin" },
+    { "id": "W2-Ryan-Eduardo", "week": 2, "p1": "Ryan", "p2": "Eduardo" },
+    { "id": "W2-Roberto-Tim", "week": 2, "p1": "Roberto", "p2": "Tim" },
+    { "id": "W2-Rafa-Vivek", "week": 2, "p1": "Rafa", "p2": "Vivek" },
+    { "id": "W2-Adrian-Deuce", "week": 2, "p1": "Adrian", "p2": "Deuce" },
+
+    { "id": "W3-Miguel-Deuce", "week": 3, "p1": "Miguel", "p2": "Deuce" },
+    { "id": "W3-Gerardo-Fernando", "week": 3, "p1": "Gerardo", "p2": "Fernando" },
+    { "id": "W3-Reid-Kevin", "week": 3, "p1": "Reid", "p2": "Kevin" },
+    { "id": "W3-Oscar-Eduardo", "week": 3, "p1": "Oscar", "p2": "Eduardo" },
+    { "id": "W3-Luis_C-Tim", "week": 3, "p1": "Luis C", "p2": "Tim" },
+    { "id": "W3-Ryan-Vivek", "week": 3, "p1": "Ryan", "p2": "Vivek" },
+    { "id": "W3-Roberto-Rafa", "week": 3, "p1": "Roberto", "p2": "Rafa" },
+    { "id": "W3-Adrian-Luis_A", "week": 3, "p1": "Adrian", "p2": "Luis A" },
+
+    { "id": "W4-Miguel-Fernando", "week": 4, "p1": "Miguel", "p2": "Fernando" },
+    { "id": "W4-Deuce-Luis_A", "week": 4, "p1": "Deuce", "p2": "Luis A" },
+    { "id": "W4-Gerardo-Kevin", "week": 4, "p1": "Gerardo", "p2": "Kevin" },
+    { "id": "W4-Reid-Tim", "week": 4, "p1": "Reid", "p2": "Tim" },
+    { "id": "W4-Oscar-Vivek", "week": 4, "p1": "Oscar", "p2": "Vivek" },
+    { "id": "W4-Luis_C-Rafa", "week": 4, "p1": "Luis C", "p2": "Rafa" },
+    { "id": "W4-Ryan-Roberto", "week": 4, "p1": "Ryan", "p2": "Roberto" },
+    { "id": "W4-Adrian-Eduardo", "week": 4, "p1": "Adrian", "p2": "Eduardo" },
+
+    { "id": "W5-Miguel-Luis_A", "week": 5, "p1": "Miguel", "p2": "Luis A" },
+    { "id": "W5-Fernando-Kevin", "week": 5, "p1": "Fernando", "p2": "Kevin" },
+    { "id": "W5-Deuce-Eduardo", "week": 5, "p1": "Deuce", "p2": "Eduardo" },
+    { "id": "W5-Gerardo-Tim", "week": 5, "p1": "Gerardo", "p2": "Tim" },
+    { "id": "W5-Reid-Rafa", "week": 5, "p1": "Reid", "p2": "Rafa" },
+    { "id": "W5-Oscar-Roberto", "week": 5, "p1": "Oscar", "p2": "Roberto" },
+    { "id": "W5-Luis_C-Ryan", "week": 5, "p1": "Luis C", "p2": "Ryan" },
+    { "id": "W5-Adrian-Vivek", "week": 5, "p1": "Adrian", "p2": "Vivek" },
+
+    { "id": "W6-Miguel-Kevin", "week": 6, "p1": "Miguel", "p2": "Kevin" },
+    { "id": "W6-Luis_A-Eduardo", "week": 6, "p1": "Luis A", "p2": "Eduardo" },
+    { "id": "W6-Fernando-Tim", "week": 6, "p1": "Fernando", "p2": "Tim" },
+    { "id": "W6-Deuce-Vivek", "week": 6, "p1": "Deuce", "p2": "Vivek" },
+    { "id": "W6-Gerardo-Rafa", "week": 6, "p1": "Gerardo", "p2": "Rafa" },
+    { "id": "W6-Reid-Ryan", "week": 6, "p1": "Reid", "p2": "Ryan" },
+    { "id": "W6-Oscar-Luis_C", "week": 6, "p1": "Oscar", "p2": "Luis C" },
+    { "id": "W6-Adrian-Roberto", "week": 6, "p1": "Adrian", "p2": "Roberto" },
+
+    { "id": "W7-Miguel-Eduardo", "week": 7, "p1": "Miguel", "p2": "Eduardo" },
+    { "id": "W7-Kevin-Tim", "week": 7, "p1": "Kevin", "p2": "Tim" },
+    { "id": "W7-Luis_A-Vivek", "week": 7, "p1": "Luis A", "p2": "Vivek" },
+    { "id": "W7-Fernando-Rafa", "week": 7, "p1": "Fernando", "p2": "Rafa" },
+    { "id": "W7-Deuce-Roberto", "week": 7, "p1": "Deuce", "p2": "Roberto" },
+    { "id": "W7-Gerardo-Ryan", "week": 7, "p1": "Gerardo", "p2": "Ryan" },
+    { "id": "W7-Reid-Oscar", "week": 7, "p1": "Reid", "p2": "Oscar" },
+    { "id": "W7-Adrian-Luis_C", "week": 7, "p1": "Adrian", "p2": "Luis C" },
+
+    { "id": "W8-Miguel-Tim", "week": 8, "p1": "Miguel", "p2": "Tim" },
+    { "id": "W8-Eduardo-Vivek", "week": 8, "p1": "Eduardo", "p2": "Vivek" },
+    { "id": "W8-Kevin-Rafa", "week": 8, "p1": "Kevin", "p2": "Rafa" },
+    { "id": "W8-Luis_A-Roberto", "week": 8, "p1": "Luis A", "p2": "Roberto" },
+    { "id": "W8-Fernando-Ryan", "week": 8, "p1": "Fernando", "p2": "Ryan" },
+    { "id": "W8-Deuce-Luis_C", "week": 8, "p1": "Deuce", "p2": "Luis C" },
+    { "id": "W8-Gerardo-Oscar", "week": 8, "p1": "Gerardo", "p2": "Oscar" },
+    { "id": "W8-Adrian-Reid", "week": 8, "p1": "Adrian", "p2": "Reid" },
+
+    { "id": "W9-Miguel-Vivek", "week": 9, "p1": "Miguel", "p2": "Vivek" },
+    { "id": "W9-Tim-Rafa", "week": 9, "p1": "Tim", "p2": "Rafa" },
+    { "id": "W9-Eduardo-Roberto", "week": 9, "p1": "Eduardo", "p2": "Roberto" },
+    { "id": "W9-Kevin-Ryan", "week": 9, "p1": "Kevin", "p2": "Ryan" },
+    { "id": "W9-Luis_A-Luis_C", "week": 9, "p1": "Luis A", "p2": "Luis C" },
+    { "id": "W9-Fernando-Oscar", "week": 9, "p1": "Fernando", "p2": "Oscar" },
+    { "id": "W9-Deuce-Reid", "week": 9, "p1": "Deuce", "p2": "Reid" },
+    { "id": "W9-Adrian-Gerardo", "week": 9, "p1": "Adrian", "p2": "Gerardo" },
+
+    { "id": "W10-Miguel-Rafa", "week": 10, "p1": "Miguel", "p2": "Rafa" },
+    { "id": "W10-Vivek-Roberto", "week": 10, "p1": "Vivek", "p2": "Roberto" },
+    { "id": "W10-Tim-Ryan", "week": 10, "p1": "Tim", "p2": "Ryan" },
+    { "id": "W10-Eduardo-Luis_C", "week": 10, "p1": "Eduardo", "p2": "Luis C" },
+    { "id": "W10-Kevin-Oscar", "week": 10, "p1": "Kevin", "p2": "Oscar" },
+    { "id": "W10-Luis_A-Reid", "week": 10, "p1": "Luis A", "p2": "Reid" },
+    { "id": "W10-Deuce-Gerardo", "week": 10, "p1": "Deuce", "p2": "Gerardo" },
+    { "id": "W10-Adrian-Fernando", "week": 10, "p1": "Adrian", "p2": "Fernando" },
+
+    { "id": "W11-Miguel-Roberto", "week": 11, "p1": "Miguel", "p2": "Roberto" },
+    { "id": "W11-Rafa-Ryan", "week": 11, "p1": "Rafa", "p2": "Ryan" },
+    { "id": "W11-Vivek-Luis_C", "week": 11, "p1": "Vivek", "p2": "Luis C" },
+    { "id": "W11-Tim-Oscar", "week": 11, "p1": "Tim", "p2": "Oscar" },
+    { "id": "W11-Eduardo-Reid", "week": 11, "p1": "Eduardo", "p2": "Reid" },
+    { "id": "W11-Luis_A-Gerardo", "week": 11, "p1": "Luis A", "p2": "Gerardo" },
+    { "id": "W11-Fernando-Deuce", "week": 11, "p1": "Fernando", "p2": "Deuce" },
+    { "id": "W11-Adrian-Kevin", "week": 11, "p1": "Adrian", "p2": "Kevin" },
+
+    { "id": "W12-Miguel-Ryan", "week": 12, "p1": "Miguel", "p2": "Ryan" },
+    { "id": "W12-Roberto-Luis_C", "week": 12, "p1": "Roberto", "p2": "Luis C" },
+    { "id": "W12-Rafa-Oscar", "week": 12, "p1": "Rafa", "p2": "Oscar" },
+    { "id": "W12-Vivek-Reid", "week": 12, "p1": "Vivek", "p2": "Reid" },
+    { "id": "W12-Eduardo-Gerardo", "week": 12, "p1": "Eduardo", "p2": "Gerardo" },
+    { "id": "W12-Kevin-Deuce", "week": 12, "p1": "Kevin", "p2": "Deuce" },
+    { "id": "W12-Luis_A-Fernando", "week": 12, "p1": "Luis A", "p2": "Fernando" },
+    { "id": "W12-Adrian-Tim", "week": 12, "p1": "Adrian", "p2": "Tim" },
+
+    { "id": "W13-Miguel-Luis_C", "week": 13, "p1": "Miguel", "p2": "Luis C" },
+    { "id": "W13-Ryan-Oscar", "week": 13, "p1": "Ryan", "p2": "Oscar" },
+    { "id": "W13-Roberto-Reid", "week": 13, "p1": "Roberto", "p2": "Reid" },
+    { "id": "W13-Vivek-Gerardo", "week": 13, "p1": "Vivek", "p2": "Gerardo" },
+    { "id": "W13-Tim-Deuce", "week": 13, "p1": "Tim", "p2": "Deuce" },
+    { "id": "W13-Eduardo-Fernando", "week": 13, "p1": "Eduardo", "p2": "Fernando" },
+    { "id": "W13-Kevin-Luis_A", "week": 13, "p1": "Kevin", "p2": "Luis A" },
+    { "id": "W13-Adrian-Rafa", "week": 13, "p1": "Adrian", "p2": "Rafa" },
+
+    { "id": "W14-Miguel-Oscar", "week": 14, "p1": "Miguel", "p2": "Oscar" },
+    { "id": "W14-Luis_C-Reid", "week": 14, "p1": "Luis C", "p2": "Reid" },
+    { "id": "W14-Roberto-Gerardo", "week": 14, "p1": "Roberto", "p2": "Gerardo" },
+    { "id": "W14-Rafa-Deuce", "week": 14, "p1": "Rafa", "p2": "Deuce" },
+    { "id": "W14-Vivek-Fernando", "week": 14, "p1": "Vivek", "p2": "Fernando" },
+    { "id": "W14-Tim-Luis_A", "week": 14, "p1": "Tim", "p2": "Luis A" },
+    { "id": "W14-Eduardo-Kevin", "week": 14, "p1": "Eduardo", "p2": "Kevin" },
+    { "id": "W14-Adrian-Ryan", "week": 14, "p1": "Adrian", "p2": "Ryan" },
+
+    { "id": "W15-Miguel-Reid", "week": 15, "p1": "Miguel", "p2": "Reid" },
+    { "id": "W15-Luis_C-Gerardo", "week": 15, "p1": "Luis C", "p2": "Gerardo" },
+    { "id": "W15-Ryan-Deuce", "week": 15, "p1": "Ryan", "p2": "Deuce" },
+    { "id": "W15-Roberto-Fernando", "week": 15, "p1": "Roberto", "p2": "Fernando" },
+    { "id": "W15-Rafa-Luis_A", "week": 15, "p1": "Rafa", "p2": "Luis A" },
+    { "id": "W15-Vivek-Kevin", "week": 15, "p1": "Vivek", "p2": "Kevin" },
+    { "id": "W15-Tim-Eduardo", "week": 15, "p1": "Tim", "p2": "Eduardo" },
+    { "id": "W15-Adrian-Oscar", "week": 15, "p1": "Adrian", "p2": "Oscar" }
+  ]
+}

@@ -520,11 +520,13 @@ export default function App() {
       {/* HERO */}
       <div className="hero">
         <div>
-          <h1 className="hero-title">
-            <span className="title-pink">Shembeldon</span>{" "}
-            <span className="title-cyan">Singles</span>{" "}
-            <span className="title-lime">Championship</span>
-          </h1>
+          <div className="flex items-center justify-center gap-3">
+            <h1 className="hero-title flex items-center">
+              <span className="title-pink">Shembeldon</span>{" "}
+              <span className="title-cyan">Singles</span>{" "}
+              <span className="title-lime">Championship</span>
+            </h1>
+          </div>
 
           <div className="hero-sub">
             Best-of-3: two straight sets wins; if it’s 1–1 after two, play a 3rd
