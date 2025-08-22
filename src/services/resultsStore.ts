@@ -1,8 +1,10 @@
+// src/services/resultsStore.ts
 import { createClient } from "@supabase/supabase-js";
 
 export type SetScore = { p1: number; p2: number };
+
 export type RemoteResult = {
-  match_id: string; // ej. "W1-Reid-Gerardo" (PRIMARY KEY)
+  match_id: string; // p.ej. "W1-Reid-Gerardo" (PRIMARY KEY)
   week: number;
   p1: string;
   p2: string;
@@ -13,13 +15,18 @@ export type RemoteResult = {
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
 const supabaseAnon = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
 if (!supabaseUrl || !supabaseAnon) {
   throw new Error(
     "[resultsStore] Faltan VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY"
   );
 }
+
 const supabase = createClient(supabaseUrl, supabaseAnon);
 
+/**
+ * Trae todos los resultados como un mapa { match_id: RemoteResult }
+ */
 export async function fetchAllResults(): Promise<Record<string, RemoteResult>> {
   const { data, error } = await supabase
     .from("results")
@@ -36,6 +43,9 @@ export async function fetchAllResults(): Promise<Record<string, RemoteResult>> {
   return map;
 }
 
+/**
+ * Inserta/actualiza un resultado.
+ */
 export async function upsertResult(r: RemoteResult): Promise<void> {
   const { error } = await supabase.from("results").upsert({
     match_id: r.match_id,
@@ -46,12 +56,16 @@ export async function upsertResult(r: RemoteResult): Promise<void> {
     winner: r.winner,
     updated_at: new Date().toISOString(),
   });
+
   if (error) {
     console.error("[resultsStore] upsertResult error:", error);
     throw error;
   }
 }
 
+/**
+ * Borra TODOS los resultados (cuidado).
+ */
 export async function wipeAllResults(): Promise<void> {
   const { error } = await supabase.from("results").delete().neq("match_id", "");
   if (error) {

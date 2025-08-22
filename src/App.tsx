@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import seed from "./seed.json";
+import "./theme.css";
 import {
   fetchAllResults,
   upsertResult,
   wipeAllResults,
   type SetScore as RSetScore,
-  type RemoteResult,
 } from "./services/resultsStore";
 
 /** ====== Config ====== */
@@ -218,9 +218,9 @@ export default function App() {
         { p1: 0, p2: 0 },
       ]
   );
+  // ⚠️ Importante: NO depender de `saved` para no pisar lo que escribe el usuario; solo reiniciar al cambiar de partido
   useEffect(() => {
     if (!active) return;
-    // Solo inicializa cuando cambias de partido
     setSets(
       saved[active.id]?.sets ?? [
         { p1: 0, p2: 0 },
@@ -228,8 +228,8 @@ export default function App() {
         { p1: 0, p2: 0 },
       ]
     );
-    // 👇 importante: NO depender de `saved`
-  }, [matchSel]);
+  }, [matchSel]); // 👈 NO incluir `saved` aquí
+
   async function submit() {
     if (!active) return;
     const winner = computeWinner(sets);
@@ -245,8 +245,7 @@ export default function App() {
       sets,
       winner,
     });
-    // (Opcional) feedback inmediato local:
-    // setSaved((prev) => ({ ...prev, [active.id]: { id: active.id, week: active.week, p1: active.p1, p2: active.p2, sets, winner } }));
+    // (El polling actualizará la vista)
   }
 
   /* ---------- Subviews ---------- */
@@ -262,18 +261,9 @@ export default function App() {
       <div style={{ display: "grid", gap: 12 }}>
         {weeks.map((w) => (
           <div key={w} className="s-card">
-            <div
-              style={{
-                fontWeight: 800,
-                marginBottom: 8,
-                color: NEON.cyan,
-                textShadow: `0 0 10px ${NEON.cyan}66`,
-              }}
-            >
-              Week {w}
-            </div>
+            <div className="week-title">Week {w}</div>
 
-            <div style={{ display: "grid", gap: 8 }}>
+            <div style={{ display: "grid", gap: 10 }}>
               {initial.fixtures
                 .filter((f) => f.week === w)
                 .map((f) => {
@@ -285,43 +275,35 @@ export default function App() {
                           .join(", ")
                       : "—, —, —";
                   const winnerLabel = res?.winner
-                    ? ` — Winner: ${res.winner === "p1" ? f.p1 : f.p2}`
+                    ? `Winner: ${res.winner === "p1" ? f.p1 : f.p2}`
                     : "";
+
+                  const isComplete = Boolean(res?.winner);
 
                   return (
                     <div
                       key={f.id}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        border: `1px solid ${NEON.border}`,
-                        borderRadius: 10,
-                        padding: "10px 12px",
-                        gap: 12,
-                      }}
+                      className={`match-card ${
+                        isComplete ? "is-complete" : "is-pending"
+                      }`}
                     >
-                      {/* Izquierda: jugadores + fecha + ganador */}
-                      <div>
-                        <b>{f.p1}</b> vs <b>{f.p2}</b>
-                        {f.date ? (
-                          <span style={{ color: "var(--sub)" }}>
-                            {" "}
-                            — {f.date}
-                          </span>
-                        ) : null}
+                      {/* Izquierda: jugadores + fecha */}
+                      <div className="match-left">
+                        <div className="players">
+                          <b>{f.p1}</b> <span className="vs">vs</span>{" "}
+                          <b>{f.p2}</b>
+                        </div>
+                        {f.date ? <div className="date">{f.date}</div> : null}
                         {winnerLabel && (
-                          <span style={{ color: "var(--lime)" }}>
+                          <div className="badge winner-badge">
                             {winnerLabel}
-                          </span>
+                          </div>
                         )}
                       </div>
 
-                      {/* Derecha: marcador (ID oculto) */}
-                      <div
-                        style={{ textAlign: "right", display: "grid", gap: 2 }}
-                      >
-                        <div style={{ fontWeight: 800 }}>{scoreLine}</div>
+                      {/* Derecha: marcador */}
+                      <div className="match-right">
+                        <span className="badge score-badge">{scoreLine}</span>
                       </div>
                     </div>
                   );
@@ -337,16 +319,9 @@ export default function App() {
     if (!active)
       return <div className="s-card">No matches in week {weekSel}.</div>;
     return (
-      <div className="s-card" style={{ display: "grid", gap: 12 }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "120px 1fr",
-            gap: 8,
-            alignItems: "center",
-          }}
-        >
-          <div style={{ color: "var(--sub)" }}>Week</div>
+      <div className="s-card" style={{ display: "grid", gap: 14 }}>
+        <div className="grid-2">
+          <label className="label">Week</label>
           <select
             value={weekSel}
             onChange={(e) => setWeekSel(Number(e.target.value))}
@@ -359,7 +334,7 @@ export default function App() {
             ))}
           </select>
 
-          <div style={{ color: "var(--sub)" }}>Match</div>
+          <label className="label">Match</label>
           <select
             value={matchSel}
             onChange={(e) => setMatchSel(e.target.value)}
@@ -367,23 +342,15 @@ export default function App() {
           >
             {matchesThisWeek.map((m) => (
               <option key={m.id} value={m.id}>
-                {m.id}
+                {m.p1} vs {m.p2}
               </option>
             ))}
           </select>
         </div>
 
         {[0, 1, 2].map((i) => (
-          <div
-            key={i}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 70px 70px",
-              gap: 8,
-              alignItems: "center",
-            }}
-          >
-            <div>Set {i + 1}</div>
+          <div key={i} className="set-row">
+            <div className="set-label">Set {i + 1}</div>
             <input
               type="number"
               min={0}
@@ -395,6 +362,7 @@ export default function App() {
                 setSets(s);
               }}
               className="s-num"
+              inputMode="numeric"
             />
             <input
               type="number"
@@ -407,13 +375,14 @@ export default function App() {
                 setSets(s);
               }}
               className="s-num"
+              inputMode="numeric"
             />
           </div>
         ))}
 
-        <div style={{ color: "var(--sub)" }}>
+        <div className="current-winner">
           Current winner:{" "}
-          <b style={{ color: "var(--lime)" }}>
+          <b className="winner-name">
             {computeWinner(sets) === "p1"
               ? active.p1
               : computeWinner(sets) === "p2"
@@ -422,11 +391,11 @@ export default function App() {
           </b>
         </div>
 
-        <button onClick={submit} className="s-btn-pink">
+        <button onClick={submit} className="btn btn-primary">
           Save Result
         </button>
         {currentSaved && (
-          <div style={{ color: "var(--sub)" }}>
+          <div className="last-saved">
             Last saved:{" "}
             <b>{currentSaved.winner === "p1" ? active.p1 : active.p2}</b> •{" "}
             {currentSaved.sets.map((s) => `${s.p1}-${s.p2}`).join(", ")}
@@ -436,38 +405,81 @@ export default function App() {
     );
   }
 
+  function StandingsTable() {
+    return (
+      <table className="table standings-table">
+        <thead>
+          <tr>
+            {["#", "Player", "W", "L", "Sets +", "Sets −", "Diff"].map((h) => (
+              <th key={h}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {standings.map((r, i) => (
+            <tr key={r.name}>
+              <td>
+                {i + 1} {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : ""}
+              </td>
+              <td className="player-name-cell">{r.name}</td>
+              <td>{r.wins}</td>
+              <td>{r.losses}</td>
+              <td>{r.setsWon}</td>
+              <td>{r.setsLost}</td>
+              <td className={r.diff > 0 ? "pos" : r.diff < 0 ? "neg" : ""}>
+                {r.diff}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+
+  function StandingsCards() {
+    return (
+      <div className="standings-cards">
+        {standings.map((r, i) => (
+          <div className="standings-card" key={r.name}>
+            <div className="rank">
+              #{i + 1} {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : ""}
+            </div>
+            <div className="name">{r.name}</div>
+            <div className="row">
+              <span>W</span>
+              <b>{r.wins}</b>
+              <span>L</span>
+              <b>{r.losses}</b>
+              <span>Diff</span>
+              <b className={r.diff > 0 ? "pos" : r.diff < 0 ? "neg" : ""}>
+                {r.diff}
+              </b>
+            </div>
+            <div className="row small">
+              <span>Sets +</span>
+              <b>{r.setsWon}</b>
+              <span>Sets −</span>
+              <b>{r.setsLost}</b>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   function StandingsTab() {
     if (!players.length) return <div className="s-card">No players yet.</div>;
     return (
       <div className="s-card">
-        <table
-          className="table"
-          style={{ width: "100%", borderCollapse: "collapse" }}
-        >
-          <thead>
-            <tr>
-              {["#", "Player", "W", "L", "Sets +", "Sets −", "Diff"].map(
-                (h) => (
-                  <th key={h}>{h}</th>
-                )
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {standings.map((r, i) => (
-              <tr key={r.name}>
-                <td>{i + 1}</td>
-                <td style={{ fontWeight: 700 }}>{r.name}</td>
-                <td>{r.wins}</td>
-                <td>{r.losses}</td>
-                <td>{r.setsWon}</td>
-                <td>{r.setsLost}</td>
-                <td>{r.diff}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div style={{ marginTop: 8, color: "var(--sub)", fontSize: 12 }}>
+        {/* Desktop table */}
+        <div className="desktop-only">
+          <StandingsTable />
+        </div>
+        {/* Mobile cards */}
+        <div className="mobile-only">
+          <StandingsCards />
+        </div>
+        <div className="tiebreak-note">
           Tiebreak: Wins → Set Differential → Name (A–Z)
         </div>
       </div>
@@ -477,21 +489,26 @@ export default function App() {
   function DataTab() {
     return (
       <div className="s-card" style={{ display: "grid", gap: 12 }}>
-        <div style={{ fontWeight: 800, marginBottom: 6 }}>Loaded players</div>
-        <div style={{ color: "var(--sub)" }}>
-          {players.length ? players.join(", ") : "—"}
-        </div>
+        <div className="section-title">Loaded players</div>
+        <div className="muted">{players.length ? players.join(", ") : "—"}</div>
         <div>
           <button
             onClick={async () => {
-              if (confirm("Clear ALL saved results?")) await wipeAllResults();
+              if (!confirm("Clear ALL saved results?")) return;
+              const ok = await wipeAllResults();
+              if (ok !== false) {
+                setSaved({});
+                alert("All results cleared.");
+              } else {
+                alert("Could not clear results. Check console/policies.");
+              }
             }}
-            className="s-btn-pink"
+            className="btn btn-danger"
           >
             Clear Results (server)
           </button>
         </div>
-        <div style={{ color: "var(--sub)" }}>
+        <div className="muted">
           Edit <code>src/seed.json</code> to change players/fixtures.
         </div>
       </div>
@@ -507,11 +524,13 @@ export default function App() {
       {/* HERO */}
       <div className="hero">
         <div>
-          <h1 className="hero-title">
-            <span style={{ color: "var(--pink)" }}>Shembeldon</span>{" "}
-            <span style={{ color: "var(--cyan)" }}>Singles</span>{" "}
-            <span style={{ color: "var(--lime)" }}>Championship</span>
-          </h1>
+          <div className="flex items-center justify-center gap-3">
+            <h1 className="hero-title flex items-center">
+              <span className="title-pink">Shembeldon</span>{" "}
+              <span className="title-cyan">Singles</span>{" "}
+              <span className="title-lime">Championship</span>
+            </h1>
+          </div>
 
           <div className="hero-sub">
             Best-of-3: two straight sets wins; if it’s 1–1 after two, play a 3rd
@@ -523,7 +542,7 @@ export default function App() {
 
         <div className="hero-actions">
           <button
-            className="lock-btn"
+            className={`lock-btn ${isAdmin ? "on" : ""}`}
             onClick={() => {
               if (isAdmin) {
                 if (confirm("Disable admin mode?")) {
@@ -550,7 +569,7 @@ export default function App() {
       </div>
 
       {/* TABS */}
-      <div style={{ display: "flex", gap: 8, margin: "18px 0 16px" }}>
+      <div className="tabs">
         <Tab
           label="Schedule"
           active={tab === "Schedule"}
@@ -576,7 +595,7 @@ export default function App() {
       </div>
 
       {/* CONTENIDO */}
-      <div style={{ maxWidth: 860, display: "grid", gap: 14 }}>
+      <div className="content">
         {tab === "Schedule" && <ScheduleTab />}
         {tab === "Submit Result" && <SubmitTab />}
         {tab === "Standings" && <StandingsTab />}
