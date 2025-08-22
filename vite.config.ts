@@ -5,11 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
-    // Permite cualquier host (evita “Blocked request” en csb.app)
-    allowedHosts: true,
+    allowedHosts: [".csb.app", "localhost", "127.0.0.1"],
   },
   preview: {
     host: true,
-    allowedHosts: true,
+    allowedHosts: [".csb.app", "localhost", "127.0.0.1"],
   },
 });
